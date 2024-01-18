@@ -14,7 +14,7 @@ library work;
 use work.config.all;
 
 
-entity reg is
+entity rege is
     generic(
         REG_WIDTH   : integer := XLEN
     );
@@ -26,10 +26,10 @@ entity reg is
         din : in std_logic_vector(REG_WIDTH-1 downto 0);
         dout: out std_logic_vector(REG_WIDTH-1 downto 0)
     );
-end entity reg;
+end entity rege;
 
 
-architecture rtl of reg is
+architecture rtl of rege is
     signal s_data : std_logic_vector(REG_WIDTH-1 downto 0) := (others => '0');
     signal s_dout : std_logic_vector(REG_WIDTH-1 downto 0) := (others => '0');
     

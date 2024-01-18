@@ -13,9 +13,12 @@ check_syntax:
 check_syntax_terminal:
 	$(VHDL_COMPILER) -s $(PACKAGE_FILES) $(SOURCE_FILES)
 
-run:
+simulate:
 	$(VHDL_COMPILER) -a  --workdir=bld $(PACKAGE_FILES)
 	$(VHDL_COMPILER) -a  --workdir=bld $(SOURCE_FILES)
+
+run:
+	make simulate
 	$(VHDL_COMPILER) -a  --workdir=bld $(TESTBENCH_FILES)
 	$(VHDL_COMPILER) -e  --workdir=bld $(TESTBENCH_ENTITY)
 	$(SIMULATOR) -r --workdir=bld $(TESTBENCH_ENTITY) --wave=vcd/$(TESTBENCH_ENTITY).ghw
@@ -27,5 +30,18 @@ view:
 # Clean target to remove generated files
 clean:
 	rm -f *.o *.cf $(VCD_FILE)
-	rm -rf bld vcd
-	mkdir bld vcd
+	rm -rf bld vcd schematics
+	mkdir bld vcd schematics
+	mkdir bld/Verilog bld/json
+
+
+
+MODULES = add4 registers rege data_memory program_memory alu
+schematic: $(MODULES)
+$(MODULES):
+	make simulate
+	cd bld;\
+	ghdl -a ../Modules/$@.vhd;\
+	$(VHDL_COMPILER) --synth --out=verilog $@ > Verilog/$@.v;\
+	yosys -p "prep -top $@; write_json json/$@.json" Verilog/$@.v;\
+	netlistsvg json/$@.json -o ../schematics/$@.svg;\
