@@ -33,7 +33,7 @@ end entity registers;
 architecture structural of registers is
     
 begin
-    register_0 : entity work.reg
+    register_0 : entity work.rege
         generic map (
             REG_WIDTH => REG_WIDTH
         )
@@ -47,7 +47,7 @@ begin
         );
 
     registers_1_16 : for i in 1 to NUM_REGISTERS - 1 generate
-        reg : entity work.reg
+        reg : entity work.rege
             generic map (
                 REG_WIDTH => REG_WIDTH
             )
