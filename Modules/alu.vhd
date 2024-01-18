@@ -51,7 +51,7 @@ begin
         case opcode is
 
             when ALU_ADD =>
-                result <= std_logic_vector(unsigned(a) + unsigned(b));
+                s_result <= std_logic_vector(unsigned(a) + unsigned(b));
                 set_zero(s_result, zero);
 
             when ALU_SUB =>
