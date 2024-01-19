@@ -36,7 +36,7 @@ clean:
 
 
 
-MODULES = add4 registers rege data_memory program_memory alu
+MODULES = programme_counter registers rege data_memory program_memory alu
 schematic: $(MODULES)
 $(MODULES):
 	make simulate
