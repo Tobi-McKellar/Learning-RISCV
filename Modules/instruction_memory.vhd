@@ -12,28 +12,26 @@ use ieee.numeric_std.all;
 library work;
 use work.config.all;
 
-entity program_memory is
+-- Because this willl likely be stored in block ram,
+-- there will be no need for a reset signal. This is 
+-- because block ram cannot be reset.
+
+entity instruction_memory is
     port (
         clk        : in std_logic;
         enable     : in std_logic;
         address    : in natural range 0 to PROGRAM_MEMORY_AMOUNT;
-        read_write : in std_logic; -- 1 for write, 0 for read  -- what a nerd
-        data_in    : in word;
-        ---
         data_out   : out word
         );
 end entity;
 
-architecture behavioral of program_memory is
+architecture behavioral of instruction_memory is
     
-    signal mem : program_space := (others => (others => '0')); 
+    signal mem : instruction_space := (others => (others => '0')); 
 begin
     process (clk) is
     begin
         if (rising_edge(clk) and enable = '1') then
-            if read_write = '1' then
-                mem(address) <= data_in;
-            else 
                 data_out <= mem(address);
             end if;
         end if;        
